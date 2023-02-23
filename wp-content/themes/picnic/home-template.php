@@ -120,33 +120,33 @@ $site_settings = get_option( 'ecap_settings' );
 										<div>
 											<div class="form_row">
 												<div class="form-floating">
-													<input type="text" class="form-control" name="memberId" id="memberID" placeholder="Member ID">
-													<label for="memberID">Member ID</label>
+													<input type="text" class="form-control" name="memberId" id="memberId" placeholder="Member ID">
+													<label for="memberId">Member ID</label>
 												</div>
 											</div>
 											<div class="form_row">
 												<div class="form-floating mb-2">
 													<input type="text" class="form-control" name="name" id="name" placeholder="Name">
-													<label for="memberID">Name</label>
+													<label for="name">Name</label>
 												</div>
 											</div>
 
-
-
 											<div class="form_row border-1">
 												<div class="form-floating mb-2">
-													<select class="form-select" id="personType">
-														<option value="Single">Single</option>
-														<option value="Family">Family</option>
+													<select class="form-select" id="personType" name="morePersonNumber">
+														<?php 
+
+															for ($i=1; $i <= 10; $i++) { 
+																echo "<option value='$i'>$i</option>";
+															}
+														?>
 													</select>
-													<label for="personType">Person Type</label>
+													<label for="personType">Aditional Person</label>
 												</div>
 												<div id="morePersonWrap" class="addMoreFiledForm">
 
 												</div>
 											</div>
-
-
 
 											<div class="form_row">
 												<div class="form-floating mb-2">
@@ -161,10 +161,6 @@ $site_settings = get_option( 'ecap_settings' );
 												</div>
 											</div>
 											
-											
-											
-
-
 											<div class="form_row">
 												<div class="form-floating">
 													<input type="text" class="form-control" name="companyName" id="companyName" placeholder="Company Name">
@@ -199,6 +195,16 @@ $site_settings = get_option( 'ecap_settings' );
 														}}?>
 													</select>
 													<label for="pickupArea">Pickup Area</label>
+												</div>
+											</div>
+											<div class="form_row">
+												<div class="form-floating">
+													<select class="form-select shadow-sm" name="driverType" id="driverType" onchange="onSelectChange(this)">
+														<option value="" disabled selected>With driver / Own drive</option>
+														<option value="Own drive">Own drive</option>
+														<option value="With driver">With driver (Fee 1000 taka)</option>
+													</select>
+													<label for="driverType">Driver Type</label>
 												</div>
 											</div>
 											<div class="form_row">

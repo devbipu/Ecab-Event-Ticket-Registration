@@ -36,7 +36,7 @@ function cmb2_add_metabox() {
 			'type'	=> 'text',
 		),
 	); 
-	
+
 	$cmb->add_field(
 		array(
 			'id'	=> 'name',
@@ -61,7 +61,7 @@ function cmb2_add_metabox() {
 	$cmb->add_field(
 		array(
 			'id'	=> 'morePersonNumber',
-			'name'	=> 'Person',
+			'name'	=> 'More Person',
 			'type'	=> 'select',
 			'options' => array(
 				1 => 1,

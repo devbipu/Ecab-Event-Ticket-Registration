@@ -6,11 +6,11 @@ const addPersonForm = `
 	<div class="form_group d-flex align-items-center gap-1 justify-content-between">
 		<div style="width: 90%;">
 			<div class="form-floating mb-2">
-				<input type="text" class="form-control" name="name1" id="name1" placeholder="Name">
-				<label for="memberID">Name</label>
+				<input type="text" class="form-control" name="morePerson[][morePersonName]" id="name1" placeholder="Name">
+				<label for="name1">Name</label>
 			</div>
 			<div class="form-floating">
-				<select class="form-select" name="relation" id="relation" onchange="onSelectChange(this)">
+				<select class="form-select" name="morePerson[][relationType]" id="relation">
 					<option value="" disabled="" selected="">Relation</option>
 					<option value="Father">Father</option>
 					<option value="Mother">Mother</option>
@@ -34,10 +34,10 @@ const addPersonForm = `
 // const personType = document.querySelector('#personType');
 
 personType.addEventListener('change', (el) => {
-	console.log(el.target.value);
-	if (el.target.value == 'Family') {
+	// console.log(el.target.value);
+	if (el.target.value >= 2) {
 		document.querySelector('#morePersonWrap').innerHTML = addPersonForm;
-	}else if (el.target.value == 'Single') {
+	}else if (el.target.value <= 1) {
 		document.querySelector('#morePersonWrap').innerHTML = null;
 	}
 })
