@@ -1,0 +1,217 @@
+/*!
+Theme Name: Picnic
+Theme URI: https://worldsoftzone.com/
+Author: Underscores.me
+Author URI:  https://worldsoftzone.com/
+Description: Description
+Version: 1.0.0
+Tested up to: 5.4
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: picnic
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned.
+
+Picnic is based on Underscores https://worldsoftzone.com/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+img{
+    width: 100%;
+    max-width: 100%;
+}
+
+body{
+    background: url(https://img.freepik.com/free-vector/watercolor-texture-with-soft-tones_1020-997.jpg?w=826&t=st=1676276977~exp=1676277577~hmac=1eac5e9…);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.man_wrapper_bg {
+    background: #ffffffab;
+    box-shadow: 0px 0px 10px #c3c4c7;
+    margin: 34px auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.home_header img{
+    width: 100%;
+}
+
+
+.left_sidebar{
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.left_sidebar_row p{
+    margin-bottom: 10px;
+}
+
+
+
+
+form#registrationForm tbody tr td:first-child {
+    width: 20%;
+}
+form#registrationForm tbody tr td:last-child {
+    padding-bottom: 24px;
+}
+
+form#registrationForm tbody tr td:first-child label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+.left_sidebar, .right_sidebar {
+    padding: 30px 10px;
+}
+
+.left_sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: calc(100% - 20rem);
+    gap: 20px;
+}
+
+
+.center_col{
+    border-left: 1px solid #ddddddb5;
+    border-right: 1px solid #ddddddb5;
+}
+/*.center_col select{
+    color: #00000073;
+}*/
+#registrationForm input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #00000073;
+  opacity: 1; /* Firefox */
+}
+
+#registrationForm input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #00000073;
+}
+
+#registrationForm input::-ms-input-placeholder { /* Microsoft Edge */
+  color: #00000073;
+}
+
+#registrationForm .form_row {
+    margin-bottom: 15px;
+}
+
+
+.select_color{
+    color: #212529 !important;
+}
+
+.center_col>div{
+    padding: 30px 0px;
+}
+
+.section_title{
+    border-bottom: 1px solid #e6e6e4;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+@media(max-width: 576px){
+    .right_sponsore_wrap{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .right_sponsore_wrap figure{
+        width: 33%;
+    }
+}
+
+.right_sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: calc(100% - 20rem);
+    gap: 20px;
+}
+
+.sponsore_wrap figure{
+    max-width: 47%;
+    display: inline-block;
+}
+
+div.addMoreFiledForm {
+    padding-left: 20px;
+}
+.addBtn, .rmBtn{
+    font-size: 25px !important;
+}
+
+div.addMoreFiledForm>div:not(:first-child) .addBtn {
+    display: none;
+}
+div.addMoreFiledForm>div:first-child .rmBtn {
+    display: none;
+}
+
+#registrationForm input, #registrationForm select{
+    font-weight: 500;
+}
+.form_group {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px #cdcdcd;
+    margin: 12px 0px;
+}
+
+.avt_row {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background: #ffffff73;
+    border-radius: 3px;
+    padding: 8px;
+    gap: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 5px #00000070;
+}
+.avt_row img{
+    max-width: 25px;
+}
+.avt_row h6 {
+    margin: 0;
+}
+
+.sponsore_wrap {
+    background: #ffffffd9;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #00000070;
+}
