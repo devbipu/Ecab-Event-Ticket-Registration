@@ -115,7 +115,7 @@ $site_settings = get_option( 'ecap_settings' );
 						<div class="col-12">
 							<h4 class="section_title">Registration</h4>
 							<div class="my-4">
-								<form method="post" action="#" id="registrationForm">
+								<form id="registrationForm">
 									<div class="border-1">
 										<div>
 											<div class="form_row">
@@ -187,7 +187,7 @@ $site_settings = get_option( 'ecap_settings' );
 											</div>
 											<div class="form_row">
 												<div class="form-floating">
-													<select class="form-select shadow-sm" name="pickupArea" id="pickupArea" onchange="onSelectChange(this)">
+													<select class="form-select shadow-sm" name="pickupArea" id="pickupArea">
 														<option value="" disabled selected>Pickup Area</option>
 														<?php if (!empty($site_settings['pickupArea'])) {
 														foreach ($site_settings['pickupArea'] as $area) {
@@ -199,7 +199,7 @@ $site_settings = get_option( 'ecap_settings' );
 											</div>
 											<div class="form_row">
 												<div class="form-floating">
-													<select class="form-select shadow-sm" name="driverType" id="driverType" onchange="onSelectChange(this)">
+													<select class="form-select shadow-sm" name="driverType" id="driverType">
 														<option value="" disabled selected>With driver / Own drive</option>
 														<option value="Own drive">Own drive</option>
 														<option value="With driver">With driver (Fee 1000 taka)</option>
@@ -294,6 +294,165 @@ $site_settings = get_option( 'ecap_settings' );
 		</section>
 	</div>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js" integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+	const personType = document.querySelector('#personType');
+	const kidsType = document.querySelector('#kidsType');
 
+
+	const addPersonForm = `
+		<div class="form_group d-flex align-items-center gap-1 justify-content-between">
+			<div style="width: 90%;">
+				<div class="form-floating mb-2">
+					<input type="text" class="form-control" name="morePerson[][morePersonName]" id="morePersonName" placeholder="Name">
+					<label for="morePersonName">Name</label>
+				</div>
+				<div class="form-floating">
+					<select class="form-select" name="morePerson[][relationType]" id="relationType">
+						<option value="" disabled="" selected="">Relation</option>
+						<option value="Father">Father</option>
+						<option value="Mother">Mother</option>
+						<option value="Sister">Sister</option>
+						<option value="Brother">Brother</option>
+						<option value="Wife">Wife</option>
+						<option value="Husband">Husband</option>
+						<option value="Friend">Friend</option>
+					</select>
+					<label for="relationType">Person Type</label>
+				</div>
+			</div>
+			<div class="align-items-center d-flex flex-column justify-content-between" style="width: 10%">
+				<button type="button" id="addMorePersonBtn" class="btn btn-primary btn-sm mb-1 addBtn">+</button>
+				<button type="button" id="removeMorePersonBtn" class="btn btn-danger btn-sm rmBtn">-</button>
+			</div>
+		</div>
+	`
+
+
+	// const personType = document.querySelector('#personType');
+
+	personType.addEventListener('change', (el) => {
+		// console.log(el.target.value);
+		if (el.target.value >= 2) {
+			document.querySelector('#morePersonWrap').innerHTML = addPersonForm;
+		}else if (el.target.value <= 1) {
+			document.querySelector('#morePersonWrap').innerHTML = null;
+		}
+	})
+
+	document.addEventListener('click', (el) => {
+		addNewPersonFrom(el, '#addMorePersonBtn', '#morePersonWrap', addPersonForm);
+	})
+	document.addEventListener('click', (el) => {
+		if (el.target.matches('#removeMorePersonBtn')) {
+			el.target.parentNode.parentNode.remove();
+		}
+	})
+
+
+
+	// function setNameKey(){
+	// 	document.addEventListener('change', (el) => {
+	// 		if (el.target.matches()) {}
+	// 	})
+	// }
+
+
+
+
+
+	// Kids add
+
+	const addKidsForm = `
+		<div class="form_group d-flex align-items-center gap-1 justify-content-between">
+			<div style="width: 90%;">
+				<div class="form-floating mb-2">
+					<input type="text" class="form-control" name="moreKids[][moreKidsName]" id="moreKidsName" placeholder="Name">
+					<label for="moreKidsName">Name</label>
+				</div>
+				<div class="form-floating">
+					<select class="form-select" name="moreKids[][moreKidsType]" id="moreKidsType">
+						<option value="" disabled="" selected="">Kids Type</option>
+						<option value="Bellow 5 years">Bellow 5 Years</option>
+						<option value="Above 5 years">Above 5 Years</option>
+					</select>
+					<label for="moreKidsType">Kids Type</label>
+				</div>
+			</div>
+			<div class="align-items-center d-flex flex-column justify-content-between" style="width: 10%">
+				<button type="button" id="addMoreKidsBtn" class="btn btn-primary mb-1 btn-sm addBtn">+</button>
+				<button type="button" id="removeMoreKidsBtn" class="btn btn-danger btn-sm rmBtn">-</button>
+			</div>
+		</div>
+	`
+
+	kidsType.addEventListener('change', (el) => {
+		console.log(el.target.value);
+		if (el.target.value == 'With Kids') {
+			document.querySelector('#addMoreKidsWrap').innerHTML = addKidsForm;
+		}else if (el.target.value == 'No Kids') {
+			document.querySelector('#addMoreKidsWrap').innerHTML = null;
+		}
+	})
+
+	document.addEventListener('click', (el) => {
+		if (el.target.matches('#removeMoreKidsBtn')) {
+			el.target.parentNode.parentNode.remove();
+		}
+	})
+
+
+	//Global
+	document.addEventListener('click', (el) => {
+		addNewPersonFrom(el, '#addMoreKidsBtn', '#addMoreKidsWrap', addKidsForm);
+	})
+
+
+	function addNewPersonFrom(el, btn, wrapper, data) {
+		if (el.target.matches(btn)) {
+			document.querySelector(wrapper).insertAdjacentHTML('beforeend', data);
+		}
+	}
+
+	document.querySelector('#registrationForm').addEventListener('reset', () => {
+		document.querySelector('#addMoreKidsWrap').innerHTML = null;
+		document.querySelector('#morePersonWrap').innerHTML = null;
+	})
+</script>
+
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+
+		document.querySelector('#registrationForm').addEventListener('submit', (event) => {
+			event.preventDefault();
+			const siteUrl = '<?php echo get_site_url()."/wp-admin/admin-ajax.php"?>';
+			console.log(siteUrl);
+
+
+			//Get all form data by object
+			const form = document.querySelector('#registrationForm');
+			const submitData = Object.fromEntries(new FormData(form).entries());
+			
+
+
+			$.ajax({
+			     type: "POST",
+			     url: siteUrl,
+			     data: {
+			         action: 'submit_entry_post',
+			     },
+			     success: function(res){
+			     	console.log(res)
+			     },
+			     error: function(er){
+			     	console.log(er);
+			     }
+			 });
+		});
+	})
+	
+</script>
 <?php
 get_footer();

@@ -5,7 +5,7 @@ function picnic_add_scripts() {
 
 	wp_enqueue_script( 'picnic-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'picnic-custom', get_template_directory_uri() . '/js/formpage.js', array(), _S_VERSION, true );
-
+    wp_enqueue_script('jquery');
 }
 add_action( 'wp_enqueue_scripts', 'picnic_add_scripts' );
 
@@ -114,3 +114,18 @@ function member_post_type() {
 
   
 add_action( 'init', 'member_post_type', 0 );
+
+
+
+
+
+
+// Submit form
+add_action('wp_ajax_nopriv_submit_entry_post', 'submit_entry_post');
+add_action('wp_ajax_submit_entry_post', 'submit_entry_post');
+
+
+function submit_entry_post()
+{
+    wp_send_json_success("ok", "200");
+}
