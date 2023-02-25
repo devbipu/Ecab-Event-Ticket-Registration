@@ -4,6 +4,7 @@ function picnic_add_scripts() {
 	wp_enqueue_style( 'picnic-bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css', array(), _S_VERSION );
 
 	wp_enqueue_script( 'picnic-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array(), _S_VERSION, true );
+    wp_enqueue_script( 'sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@11', array(), _S_VERSION, true );
 	wp_enqueue_script( 'picnic-custom', get_template_directory_uri() . '/js/formpage.js', array(), _S_VERSION, true );
     wp_enqueue_script('jquery');
 }
@@ -127,5 +128,44 @@ add_action('wp_ajax_submit_entry_post', 'submit_entry_post');
 
 function submit_entry_post()
 {
-    wp_send_json_success("ok", "200");
+    $from_data  = $_POST['fromData'];
+    $morePerson = $_POST['morePerson'];
+    $moreKids   = $_POST['moreKids'];
+
+    serialize($morePerson);  
+    serialize($moreKids);  
+
+    $booking_data = array(
+        'post_title'    => $from_data['name'],
+        'post_status'   => 'publish',
+        'post_type'     => 'bookings',
+    );
+    // $post_id = wp_insert_post( $booking_data );
+
+    // $booking_meta_data = [
+    //     'memberId'          => $from_data['memberId'],
+    //     'name'              => $from_data['name'],
+    //     'personType'        => $from_data['personType'],
+    //     'kidsType'          => $from_data['kidsType'],
+    //     'companyName'       => $from_data['companyName'],
+    //     'phoneNumber'       => $from_data['phoneNumber'],
+    //     'email'             => $from_data['email'],
+    //     'nid'               => $from_data['nid'],
+    //     'pickupArea'        => $from_data['pickupArea'],
+    //     'driverType'        => $from_data['driverType'],
+    //     'regFee'            => $from_data['regFee'],
+    // ];
+
+
+    // foreach ($booking_meta_data as $key => $value) {
+    //     update_post_meta( $post_id, $key, $value );
+    // }
+
+    //     update_post_meta($post_id, 'morePerson', $morePerson); //array() auto serialize by wordpress
+    //     update_post_meta($post_id, 'moreKids', $moreKids); //array() auto serialize by wordpress
+    if ($post_id) {
+        wp_send_json_success("Booking Added Successfully", 200);
+    }else{
+        wp_send_json_error("Something went wrong", 400);
+    }
 }

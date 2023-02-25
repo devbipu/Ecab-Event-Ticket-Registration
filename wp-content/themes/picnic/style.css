@@ -215,3 +215,10 @@ div.addMoreFiledForm>div:first-child .rmBtn {
     border-radius: 3px;
     box-shadow: 0 0 5px #00000070;
 }
+
+
+/*SWL*/
+
+.swal2-container.swal2-top-end>.swal2-popup, .swal2-container.swal2-top-right>.swal2-popup{
+    top: 32px;
+}

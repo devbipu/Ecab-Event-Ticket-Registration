@@ -120,7 +120,7 @@ $site_settings = get_option( 'ecap_settings' );
 										<div>
 											<div class="form_row">
 												<div class="form-floating">
-													<input type="text" class="form-control" name="memberId" id="memberId" placeholder="Member ID">
+													<input type="number" class="form-control" name="memberId" id="memberId" placeholder="Member ID">
 													<label for="memberId">Member ID</label>
 												</div>
 											</div>
@@ -150,7 +150,7 @@ $site_settings = get_option( 'ecap_settings' );
 
 											<div class="form_row">
 												<div class="form-floating mb-2">
-													<select class="form-select" id="kidsType">
+													<select class="form-select" id="kidsType" name="kidsType">
 														<option value="No Kids" selected>No Kids</option>
 														<option value="With Kids">With Kids</option>
 													</select>
@@ -292,6 +292,7 @@ $site_settings = get_option( 'ecap_settings' );
 				</div>
 			</div>
 		</section>
+		<button class="btn checkSWL">Check me</button>
 	</div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js" integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -301,14 +302,14 @@ $site_settings = get_option( 'ecap_settings' );
 
 
 	const addPersonForm = `
-		<div class="form_group d-flex align-items-center gap-1 justify-content-between">
+		<div class="form_group d-flex align-items-center gap-1 justify-content-between morePersonRow ">
 			<div style="width: 90%;">
 				<div class="form-floating mb-2">
-					<input type="text" class="form-control" name="morePerson[][morePersonName]" id="morePersonName" placeholder="Name">
+					<input type="text" class="form-control morePersonDatas" name="morePersonName" id="morePersonName" placeholder="Name">
 					<label for="morePersonName">Name</label>
 				</div>
 				<div class="form-floating">
-					<select class="form-select" name="morePerson[][relationType]" id="relationType">
+					<select class="form-select morePersonDatas" name="relationType" id="relationType">
 						<option value="" disabled="" selected="">Relation</option>
 						<option value="Father">Father</option>
 						<option value="Mother">Mother</option>
@@ -330,7 +331,6 @@ $site_settings = get_option( 'ecap_settings' );
 
 
 	// const personType = document.querySelector('#personType');
-
 	personType.addEventListener('change', (el) => {
 		// console.log(el.target.value);
 		if (el.target.value >= 2) {
@@ -364,14 +364,14 @@ $site_settings = get_option( 'ecap_settings' );
 	// Kids add
 
 	const addKidsForm = `
-		<div class="form_group d-flex align-items-center gap-1 justify-content-between">
+		<div class="form_group d-flex align-items-center gap-1 justify-content-between moreKidsRow">
 			<div style="width: 90%;">
 				<div class="form-floating mb-2">
-					<input type="text" class="form-control" name="moreKids[][moreKidsName]" id="moreKidsName" placeholder="Name">
+					<input type="text" class="form-control moreKidsInputs" name="moreKidsName" id="moreKidsName" placeholder="Name">
 					<label for="moreKidsName">Name</label>
 				</div>
 				<div class="form-floating">
-					<select class="form-select" name="moreKids[][moreKidsType]" id="moreKidsType">
+					<select class="form-select moreKidsInputs" name="moreKidsType" id="moreKidsType">
 						<option value="" disabled="" selected="">Kids Type</option>
 						<option value="Bellow 5 years">Bellow 5 Years</option>
 						<option value="Above 5 years">Above 5 Years</option>
@@ -423,34 +423,68 @@ $site_settings = get_option( 'ecap_settings' );
 
 
 <script type="text/javascript">
-	jQuery(document).ready(function($){
 
+	function __notify({title='Successfull', desc='', type='success'}){
+		Swal.fire({
+			toast: true,
+			showConfirmButton: false,
+			timer: 3000,
+			icon: type,
+			title: title,
+			text: desc,
+			timerProgressBar: true,
+			position: 'top-end',
+			didOpen: (toast) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer)
+				toast.addEventListener('mouseleave', Swal.resumeTimer)
+			}
+		})
+	}
+	jQuery(document).ready(function($){
 		document.querySelector('#registrationForm').addEventListener('submit', (event) => {
 			event.preventDefault();
 			const siteUrl = '<?php echo get_site_url()."/wp-admin/admin-ajax.php"?>';
-			console.log(siteUrl);
-
 
 			//Get all form data by object
 			const form = document.querySelector('#registrationForm');
 			const submitData = Object.fromEntries(new FormData(form).entries());
-			
-
 
 			$.ajax({
 			     type: "POST",
 			     url: siteUrl,
 			     data: {
-			         action: 'submit_entry_post',
+			        action: 'submit_entry_post',
+			        fromData: submitData,
+					morePerson: makeRepeaterData('morePersonWrap', '.morePersonRow', '.morePersonDatas'),
+					moreKids: makeRepeaterData('addMoreKidsWrap', '.moreKidsRow', '.moreKidsInputs'),
 			     },
 			     success: function(res){
-			     	console.log(res)
+			     	document.querySelector('#registrationForm').reset();
+			     	__notify("From Submited Successfully");
 			     },
 			     error: function(er){
+			     	__notify({title: "Some thing went wrong", type: "error"});
 			     	console.log(er);
 			     }
 			 });
 		});
+
+		function makeRepeaterData(wrapperId, rowClass, fieldClass){
+			const repeaterContainer = document.getElementById(wrapperId);
+			const repeaterRows = repeaterContainer.querySelectorAll(rowClass);
+			const repeaterData = [];
+
+			repeaterRows.forEach(row => {
+				const fields = row.querySelectorAll(fieldClass);
+				const rowData = {};
+
+				fields.forEach(field => {
+				  rowData[field.name] = field.value;
+				});
+				repeaterData.push(rowData);
+			});
+		    return repeaterData;
+		}
 	})
 	
 </script>

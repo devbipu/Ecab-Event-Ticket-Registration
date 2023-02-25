@@ -150,8 +150,8 @@ function cmb2_add_metabox() {
 	    'id'   => 'moreKidsType',
 	    'type' => 'select',
 	    'options' => array(
-			'0-5 Year' 		=> __('0-5 Year', 'cmb2'),
-			'Above 5 year' 	=> __('Above 5 year ', 'cmb2'),
+			'Bellow 5 years' 		=> __('Bellow 5 years', 'cmb2'),
+			'Above 5 years' 	=> __('Above 5 years', 'cmb2'),
 		),
 	));
 
